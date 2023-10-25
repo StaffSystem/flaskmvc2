@@ -6,7 +6,7 @@ from flask.cli import with_appcontext, AppGroup
 
 from App.models import Staff, Student
 
-from App.controllers import addReview, get_staff_username
+from App.controllers import staff,student,addReview, get_staff_username
 
 from.index import index_views
 
@@ -16,12 +16,28 @@ staff_view = Blueprint('staff_view', __name__, template_folder='../templates')
 
 @staff_view.route('/signup',methods=['POST'])
 def createStaff():
-    data=request.json()
-    staff=Staff.create_staff(data['username'],data['password']);
+    data=request.data
+    user=staff.create_staff(data['username'],data['password']);
     if(staff):
         return jsonify({"Account Created"}),201
     else:  
         return jsonify({"Username already exists"}),401
+
+@staff_view.route('/login',methods=['POST'])
+def login_action():
+  data = request.form
+  staff = Staff.query.filter_by(username=data['username']).first()
+  if staff and staff.check_password(password=data['password']):  # check credentials
+    flash('Logged in successfully.')  # send message to next page
+    login_user(staff)  # login the user
+    return redirect('/home')  # redirect to main page if login successful
+
+  else:
+    flash('Invalid username or password')  # send message to next page
+    return redirect('/login')
+  pass
+
+
 
 
 
@@ -41,7 +57,7 @@ def createReview():
         return jsonify({"Error"}),401
 
 
-@staff_view.route('/searchStudent',methods=["GET"])
+@staff_view.route('/searchStudent/<int:id>',methods=["GET"])
 @login_required
 def searchStudent(id):
     student=Student.get_student(id)
