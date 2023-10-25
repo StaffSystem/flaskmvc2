@@ -15,23 +15,23 @@ class ReviewList(db.Model, UserMixin):
         self.review_id=review_id
 
 
-    def get_json(self):
-        return{
-            'id': self.id,
-            'rating':self.rating,
-            'review':self.review
-        }
+#     def get_json(self):
+#         return{
+#             'id': self.id,
+#             'rating':self.rating,
+#             'review':self.review
+#         }
 
-    def set_rating(self, rating):
-        self.rating = rating
+#     def set_rating(self, rating):
+#         self.rating = rating
 
-    def set_review(self, review):
-        self.review = review
+#     def set_review(self, review):
+#         self.review = review
 
-    def create_review(self, studid, rating, comment):
-        review = Review(studid,rating,comment)
-        db.session.add(review)
-        db.session.commit()
-        return
+#     def create_review(self, studid, rating, comment):
+#         review = Review(studid,rating,comment)
+#         db.session.add(review)
+#         db.session.commit()
+#         return
 
 

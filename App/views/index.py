@@ -2,7 +2,7 @@ from flask import Blueprint, redirect, render_template, request, send_from_direc
 from sqlalchemy.exc import SQLAlchemyError
 from App.models import db
 from App.controllers import create_user
-from App.controllers import Staff, Student
+from App.controllers import staff, student
 
 index_views = Blueprint('index_views', __name__, template_folder='../templates')
 
@@ -25,12 +25,15 @@ def health_check():
 
 @index_views.route("/getStaffs", methods=['GET'])
 def getstaff():
-    # if(staff):
     try:
-        staffs=Staff.get_all_staff()
-        return jsonify({'status':'healthy'})
+        
+        staffs=staff.get_all_staff()
+        members = [staff.get_json() for staff in staffs]
+        return jsonify(members)
     except SQLAlchemyError as e:
         return jsonify({"error": "Database error", "details": str(e)}), 500
+
+        
     # return render_template('check.html', staffs=staffs)
     # else:
         # return jsonify({"Staff member not found"}),400

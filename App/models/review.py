@@ -15,7 +15,6 @@ class Review(db.Model, UserMixin):
 
 
     def __init__(self,staff_id,studentID, rating,ispos, text):
-        self.id=id
         self.staff_id=staff_id
         self.student_id = studentID
         self.rating=1
