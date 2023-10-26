@@ -10,13 +10,14 @@ import click, pytest, sys
 from flask import Flask
 from flask.cli import with_appcontext, AppGroup
 
+from App.controllers import login 
 
 from App.controllers.staff import(
     Staff,
     create_staff,
     get_all_staff,
     get_staff,
-    get_staff_username
+    get_staff_username,
 )
 
 app = create_app()
@@ -35,7 +36,18 @@ class StaffUnitTests(unittest.TestCase):
     def test_get_json(self):
         staff=Staff("bob","bobpass")
         staff_json=staff.get_json
-        self.assertDictEqual(staff_json,"id":None,"username":"bob")
+        self.assertDictEqual(staff_json,{"id":"None","username":"bob"})
+
+    def test_hashed_password(self):
+        password = "mypass"
+        hashed = generate_password_hash(password, method='sha256')
+        staff = Staff("bob", password)
+        assert staff.password != password
+
+    def test_check_password(self):
+        password = "mypass"
+        staff = Staff("bob", password)
+        assert staff.check_password(password)
 
 
 @pytest.fixture(autouse=True, scope="module")
@@ -47,8 +59,8 @@ def empty_db():
 
 
 def test_authenticate():
-    user = create_user("bob", "bobpass")
-    assert login("bob", "bobpass") != None
+    user = create_staff("bob", "bobpass")
+    assert login(user) != None
 
 class StaffIntergrationTests(unittest.TestCase):
 
