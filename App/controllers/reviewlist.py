@@ -6,8 +6,8 @@ from App.controllers import student
 from App.database import db
 
 
-def add_review(review,student):
-    rlist = ReviewList(review,student)
+def add_review(review, student):
+    rlist = ReviewList(review=review, student=student)
     db.session.add(rlist)
     db.session.commit()
     return rlist

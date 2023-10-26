@@ -81,7 +81,6 @@ def getStaffByUsername(username):
 def createReview():
 
     data=request.get_json()
-    requested_student=Student.query.filter_by(student_id=data["student_id"]).first()
     new_review=review.create_review(data['student_id'],data['staff_id'],data['rating'],data['isPositive'],data['text'])
     
     if(new_review):

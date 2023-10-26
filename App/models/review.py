@@ -6,10 +6,11 @@ from App.models import Staff
 
 class Review(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    staff_id = db.Column(db.Integer, db.ForeignKey('staff.id'), nullable=False) #set userid as a foreign key to user.id 
+    staff_id = db.Column(db.Integer, db.ForeignKey('staff.id'), nullable=False)
     rating = db.Column(db.Integer,nullable=True)
     isPositive=db.Column(db.Boolean,nullable=False)#1 for if it is positive 0 if negative
     text = db.Column(db.String(200),nullable=True)
+    
     # notifications = db.relationship('Notification', backref='notifications', lazy=True, cascade="all, delete-orphan")
 
 

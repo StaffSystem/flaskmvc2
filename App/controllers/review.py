@@ -4,22 +4,21 @@ from App.controllers import reviewlist,student
 from App.database import db
 from flask import jsonify
 
-def create_review(student_id,staff_id,rating,isPositive,text):
-    our_student=student.get_student(student_id=student_id)
+def create_review(student_id, staff_id, rating, isPositive, text):
+    # Create a Review
+    review = Review(staff_id=staff_id, rating=rating, isPositive=isPositive, text=text)
+    db.session.add(review)
+    db.session.commit()
 
-    if(our_student):
-        review = Review(staff_id,rating,isPositive,text)
-    
-        db.session.add(review)
-        if(review):
-            review_id=review.id
-            reviewlist.add_review(review,our_student)
-            db.session.commit()
-            return review
-        else:
-                return None
+    # Assuming you have a valid student_id
+    student = Student.query.filter_by(student_id=student_id).first()
+
+    if student:
+        # Add the review to the ReviewList
+        reviewlist.add_review(review, student)
+        return review
     else:
-        return None    
+        return None
 
 
 def get_review_by_id(new_id):
