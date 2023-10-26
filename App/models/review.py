@@ -13,11 +13,11 @@ class Review(db.Model, UserMixin):
     # notifications = db.relationship('Notification', backref='notifications', lazy=True, cascade="all, delete-orphan")
 
 
-    def __init__(self,staff_id, rating,ispos, text):
-        self.staff_id=staff_id
-        self.rating=1
-        self.isPositive=ispos
-        self.text=text
+    def __init__(self, staff_id, rating, isPositive, text):
+        self.staff_id = staff_id
+        self.rating = rating
+        self.isPositive = bool(int(isPositive))
+        self.text = text
         
 
 

@@ -2,11 +2,12 @@
 
 from App.models import ReviewList
 from App.models import Review
+from App.controllers import student
 from App.database import db
 
 
-def add_review(review_id,staff_id):
-    rlist = ReviewList(student.id,review.id)
+def add_review(review,student):
+    rlist = ReviewList(review,student)
     db.session.add(rlist)
     db.session.commit()
     return rlist

@@ -1,7 +1,7 @@
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import UserMixin
 from App.database import db
-from App.models import Review
+from App.models import Review,Student
 
 
 class ReviewList(db.Model, UserMixin):
@@ -10,9 +10,10 @@ class ReviewList(db.Model, UserMixin):
     student_id = db.Column(db.Integer, db.ForeignKey('student.id'), nullable=False)
 
 
-    def __init__(self,studentID, review_id):
-        self.student_id = studentID
-        self.review_id=review_id
+    def __init__(self,student, review):
+        self.review_id=review.id
+        self.student_id = student.id
+        
 
 
 #     def get_json(self):

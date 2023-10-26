@@ -1,14 +1,18 @@
 from App.models import Student
 from App.database import db
 
-def create_student(id,fname,lname):
-    newstudent = Student(id=id, firstname=fname,lastname=lname)
+def create_student(student_id,fname,lname):
+    newstudent = Student(student_id=student_id, firstname=fname,lastname=lname)
     db.session.add(newstudent)
     db.session.commit()
     return newstudent
 
 def get_student(id):
-    return Student.query.get(id)
+    found_student=Student.query.filter_by(student_id=id).first()
+    if(found_student):
+        return found_student
+    else:
+        return None
 
 # def get_all_users():
 #     return User.query.all()
