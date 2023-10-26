@@ -22,17 +22,18 @@ def createStaff():
     username=data["username"]
     password=data["password"]
     user=staff.create_staff(username,password);
-
     if(user):
-        return jsonify({"Account Created"}),201
+        return jsonify({"message": "Account Created"}),201
     else:  
-        return jsonify({"Username already exists"}),401
+        return jsonify({"message": "Username already exists"}),401
 
 @staff_view.route('/login',methods=['POST'])
 def login_action():
   data = request.form
   staff = Staff.query.filter_by(username=data['username']).first()
+
   if staff and staff.check_password(password=data['password']):  # check credentials
+    
     flash('Logged in successfully.')  # send message to next page
     login_user(staff)  # login the user
     return redirect('/home')  # redirect to main page if login successful
