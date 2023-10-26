@@ -26,7 +26,7 @@ def get_all_staff():
     return None
 
 def get_staff_username(username):
-    staff=Staff.query.filter_by(username)
+    staff=Staff.query.filter_by(username=username)
     if (staff):
         return staff
     return None

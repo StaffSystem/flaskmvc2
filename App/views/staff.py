@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, jsonify, request, send_from_directory, flash, redirect, url_for
 from flask_jwt_extended import jwt_required, current_user as jwt_current_user
-from flask_login import current_user, login_required, login_user
+from flask_login import current_user, login_required
+from flask_login import LoginManager, login_user
 from flask import request, jsonify
 
 
@@ -8,7 +9,7 @@ from flask.cli import with_appcontext, AppGroup
 
 from App.models import Staff, Student
 
-from App.controllers import staff,student,addReview, get_staff_username
+from App.controllers import staff, student, addReview, get_staff_username
 
 from.index import index_views
 
@@ -21,28 +22,48 @@ def createStaff():
     data=request.get_json()
     username=data["username"]
     password=data["password"]
-    user=staff.create_staff(username,password);
-    if(user):
-        return jsonify({"message": "Account Created"}),201
-    else:  
-        return jsonify({"message": "Username already exists"}),401
 
-@staff_view.route('/login',methods=['POST'])
+    taken_name=staff.get_staff_username(username=username)
+
+    if(taken_name):
+        return jsonify({"message": "Username already exists"}),401
+    else: 
+        user=staff.create_staff(username,password);
+    if(user):
+            return jsonify({"message": "Account Created"}),201
+     
+        
+
+@staff_view.route('/login',methods=['GET'])
 def login_action():
-  data = request.form
+  data = request.get_json()
   staff = Staff.query.filter_by(username=data['username']).first()
 
   if staff and staff.check_password(password=data['password']):  # check credentials
-    
+
     flash('Logged in successfully.')  # send message to next page
     login_user(staff)  # login the user
-    return redirect('/home')  # redirect to main page if login successful
+    return  jsonify({"message": "Login Sucesssful"}),201 # redirect to main page if login successful
 
   else:
     flash('Invalid username or password')  # send message to next page
-    return redirect('/login')
+    return jsonify({"message": "Incorrect Username or Password"}),401
   pass
 
+@staff_view.route('/addStudent',methods=['POST'])
+@login_required
+def addStudent():
+    data=request.get_json()
+    taken_id=Student.filter_by(id=data["id"]).first()
+
+    if(taken_id):
+        return jsonify({"message": "Student already exists"}),401
+    else: 
+        student=student.create_student(data["id"],data["fname"],data["lname"]);
+
+    if(student):
+            return jsonify({"message": "Student added Sucessfuly"}),201
+     
 
 
 
