@@ -59,7 +59,7 @@ def addStudent():
     if(taken_id):
         return jsonify({"message": "Student already exists"}),401
     else: 
-        student=student.create_student(data["id"],data["fname"],data["lname"]);
+        student=Student.create_student(data["id"],data["fname"],data["lname"]);
 
     if(student):
             return jsonify({"message": "Student added Sucessfuly"}),201
