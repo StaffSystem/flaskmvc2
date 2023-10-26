@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, jsonify, request, send_from_directory, flash, redirect, url_for
 from flask_jwt_extended import jwt_required, current_user as jwt_current_user
 from flask_login import current_user, login_required
+from flask import request, jsonify
+
 
 from flask.cli import with_appcontext, AppGroup
 
@@ -16,9 +18,12 @@ staff_view = Blueprint('staff_view', __name__, template_folder='../templates')
 
 @staff_view.route('/signup',methods=['POST'])
 def createStaff():
-    data=request.data
-    user=staff.create_staff(data['username'],data['password']);
-    if(staff):
+    data=request.get_json()
+    username=data["username"]
+    password=data["password"]
+    user=staff.create_staff(username,password);
+
+    if(user):
         return jsonify({"Account Created"}),201
     else:  
         return jsonify({"Username already exists"}),401
