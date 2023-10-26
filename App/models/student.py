@@ -15,6 +15,7 @@ class Student(db.Model, UserMixin):
         self.id=id
         self.firstname=firstname
         self.lastname=lastname
+        self.karma=0;
 
     def get_json(self):
         return{

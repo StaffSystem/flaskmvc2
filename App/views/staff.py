@@ -7,7 +7,7 @@ from flask import request, jsonify
 
 from flask.cli import with_appcontext, AppGroup
 
-from App.models import Staff, Student
+from App.models import Staff, Student, User
 
 from App.controllers import staff, student, addReview, get_staff_username
 
@@ -51,27 +51,25 @@ def login_action():
   pass
 
 @staff_view.route('/addStudent',methods=['POST'])
-@login_required
+# @login_required
 def addStudent():
     data=request.get_json()
-    taken_id=Student.filter_by(id=data["id"]).first()
+    taken_id=Student.query.filter_by(id=data["id"]).first()
 
     if(taken_id):
         return jsonify({"message": "Student already exists"}),401
     else: 
-        student=Student.create_student(data["id"],data["fname"],data["lname"]);
+        new_student=student.create_student(data["id"],data["fname"],data["lname"]);
 
-    if(student):
+    if(new_student):
             return jsonify({"message": "Student added Sucessfuly"}),201
      
-
-
-
 
 @staff_view.route('/getstaffByUsername/<username>',methods=['GET'])
 @login_required
 def getStaffByUsername(username):
     return get_staff_username(username)
+
 
 @staff_view.route('/createReview',methods=['POST'])
 @login_required
