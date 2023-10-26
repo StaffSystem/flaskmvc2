@@ -14,6 +14,7 @@ from flask.cli import with_appcontext, AppGroup
 from App.controllers.staff import(
     Staff,
     create_staff,
+    get_all_staff,
     get_staff,
     get_staff_username
 )
@@ -25,32 +26,54 @@ LOGGER = logging.getLogger(__name__)
 
 staff_test=AppGroup("staff",help='Tests Staff functions')
 
-
 class StaffUnitTests(unittest.TestCase):
-    @staff_test.command("create_Staff", help='Test create Staff function')
-    @click.argument("username", default="rob")
-    @click.argument("password", default="robpass")
-    def create_staff_test(self,username,password):
-        user = Staff(username, password)
-        assert user.username == "rob"
+
+    def test_new_staff(self):
+        staff=Staff("bob","bobpass")
+        assert staff.usernamw=="bob"
+
+    def test_get_json(self):
+        staff=Staff("bob","bobpass")
+        staff_json=staff.get_json
+        self.assertDictEqual(staff_json,"id":None,"username":"bob")
+
+
+@pytest.fixture(autouse=True, scope="module")
+def empty_db():
+    app = create_app({'TESTING': True, 'SQLALCHEMY_DATABASE_URI': 'sqlite:///test.db'})
+    create_db()
+    yield app.test_client()
+    db.drop_all()
+
+
+def test_authenticate():
+    user = create_user("bob", "bobpass")
+    assert login("bob", "bobpass") != None
+
+class StaffIntergrationTests(unittest.TestCase):
+
+    def create_staff_test(self):
+        user = create_staff(username="bob2",password="bob2pass")
+        assert user.username == "bob"
 #commit
 
-    def update_staff_username_test(self,new_id,username):
-        staff=get_staff(new_id)
+    def update_staff_username_test(self):
+        staff=get_staff(1)
         if staff:
-            staff.username=username
+            staff.username="bill"
             db.session.add(staff)
             db.session.commit()
         assert staff.username=="bill"
 
 
-
-    @staff_test.command("get_staff_name", help='Test get Staff function')
-    def test_get_staff_id(self):
+    def test_get_staff_username(self):
         staff=create_staff("bob","bobpass")
         staffid=get_staff_username(username="bob")
         if staffid:
             print (staff)
+            assert staff.username=="bob"
         print ("staff not found")
 
-app.cli.add_command(staff_test)
+    def test_get_all_staff(self):
+        staff_json = get_all_staff()
+        self.assertListEqual([{"id":1, "username":"bob"}, {"id":2, "username":"rick"}], staff_json)
