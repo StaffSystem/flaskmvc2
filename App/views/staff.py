@@ -23,7 +23,7 @@ def createStaff():
     username=data["username"]
     password=data["password"]
 
-    taken_name=staff.get_staff_username(username=username)
+    taken_name=staff.get_staff_username(username)
 
     if(taken_name):
         return jsonify({"message": "Username already exists"}),401
