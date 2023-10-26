@@ -5,19 +5,21 @@ from App.database import db
 from flask import jsonify
 
 def create_review(student_id,staff_id,rating,isPositive,text):
-    review = Review(staff_id,rating,isPositive,text)
-    our_student=student.get_student(student_id)
-    
-    db.session.add(review)
+    our_student=student.get_student(student_id=student_id)
 
-    if(review):
-        review_id=review.id
-        reviewlist.add_review(review,our_student)
-        db.session.commit()
-        return review
-    else:
-            return None
+    if(our_student):
+        review = Review(staff_id,rating,isPositive,text)
     
+        db.session.add(review)
+        if(review):
+            review_id=review.id
+            reviewlist.add_review(review,our_student)
+            db.session.commit()
+            return review
+        else:
+                return None
+    else:
+        return None    
 
 
 def get_review_by_id(new_id):

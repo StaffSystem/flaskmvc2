@@ -7,8 +7,9 @@ def create_student(student_id,fname,lname):
     db.session.commit()
     return newstudent
 
-def get_student(id):
-    found_student=Student.query.filter_by(student_id=id).first()
+def get_student(student_id):
+    found_student=Student.query.filter_by(student_id=student_id).first()
+    
     if(found_student):
         return found_student
     else:

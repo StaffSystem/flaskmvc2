@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, jsonify, request, send_from_directory, flash, redirect, url_for
 from flask_jwt_extended import jwt_required, current_user as jwt_current_user
+from sqlalchemy.exc import SQLAlchemyError
 from flask_login import current_user, login_required
 from flask_login import LoginManager, login_user
 from flask import request, jsonify
@@ -60,9 +61,8 @@ def addStudent():
         return jsonify({"message": "Student already exists"}), 401
     else:
         new_student = student.create_student(data["student_id"], data["fname"], data["lname"])
-
-    if new_student:
-        return jsonify({"message": "Student added successfully"}), 201 
+        if new_student:
+            return jsonify({"message": "Student added successfully"}), 201 
 
 @staff_view.route('/getstaffByUsername/<username>',methods=['GET'])
 @login_required
@@ -73,12 +73,15 @@ def getStaffByUsername(username):
 @staff_view.route('/createReview',methods=['POST'])
 # @login_required
 def createReview():
+
     data=request.get_json()
+    requested_student=Student.query.filter_by(student_id=data["student_id"]).first()
     new_review=review.create_review(data['student_id'],data['staff_id'],data['rating'],data['isPositive'],data['text'])
+    
     if(new_review):
-        return jsonify({"Review Posted"}), 201
+        return jsonify({"message": "Review Posted"}),201
     else:
-        return jsonify({"Error"}),401
+        return jsonify({"message": "Error"}),401
 
 
 @staff_view.route('/searchStudent',methods=["GET"])
@@ -94,7 +97,20 @@ def searchStudent():
 
 
 
-@staff_view.route('/searchStudentName/<name>',methods=['GET'])
-@login_required
-def getStudentName(name):
-    return Student.query.filter_by(name)
+# @staff_view.route('/searchStudentName/<name>',methods=['GET'])
+# @login_required
+# def getStudentName(name):
+#     return Student.query.filter_by(name)
+
+
+
+@staff_view.route('/getStudents', methods=['GET'])
+def getStudentName():
+    try:
+        students_data = student.get_all_students_json()
+        if students_data:
+            return jsonify(students_data), 200
+        else:
+            return jsonify({"message": "No students found"}), 404
+    except SQLAlchemyError as e:
+        return jsonify({"error": "Database error", "details": str(e)}), 500

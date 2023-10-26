@@ -26,7 +26,6 @@ def health_check():
 @index_views.route("/getStaffs", methods=['GET'])
 def getstaff():
     try:
-        
         staffs=staff.get_all_staff()
         members = [staff.get_json() for staff in staffs]
         return jsonify(members)
