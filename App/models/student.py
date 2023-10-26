@@ -7,7 +7,7 @@ class Student(db.Model, UserMixin):
     firstname=db.Column(db.String,nullable=False)
     lastname=db.Column(db.String,nullable=False)
     karma=db.Column(db.Integer, nullable=False)
-    review = db.relationship('Review', backref='student', lazy=True, cascade="all, delete-orphan")
+    review = db.relationship('ReviewList', backref='student', lazy=True, cascade="all, delete-orphan")
     
 
 

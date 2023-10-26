@@ -6,7 +6,6 @@ from App.models import Staff
 
 class Review(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    student_id = db.Column(db.Integer, db.ForeignKey('student.id'), nullable=False) #set userid as a foreign key to user.id 
     staff_id = db.Column(db.Integer, db.ForeignKey('staff.id'), nullable=False) #set userid as a foreign key to user.id 
     rating = db.Column(db.Integer,nullable=True)
     isPositive=db.Column(db.Boolean,nullable=False)#1 for if it is positive 0 if negative
@@ -14,9 +13,8 @@ class Review(db.Model, UserMixin):
     # notifications = db.relationship('Notification', backref='notifications', lazy=True, cascade="all, delete-orphan")
 
 
-    def __init__(self,staff_id,studentID, rating,ispos, text):
+    def __init__(self,staff_id, rating,ispos, text):
         self.staff_id=staff_id
-        self.student_id = studentID
         self.rating=1
         self.isPositive=ispos
         self.text=text
