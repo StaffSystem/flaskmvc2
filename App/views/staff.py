@@ -52,7 +52,7 @@ def login_action():
   pass
 
 @staff_view.route('/logout', methods=['GET'])
-@login_required
+# @login_required
 def logout():
     logout_user()
     return jsonify({"message": "Logged out successfully"}), 200
