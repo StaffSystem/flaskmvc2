@@ -2,6 +2,7 @@
 
 from App.models import ReviewList
 from App.models import Review
+from App.models import Student
 from App.controllers import student
 from App.database import db
 
@@ -12,12 +13,20 @@ def add_review(review, student):
     db.session.commit()
     return rlist
 
-def get_student_reviews(student_id):
-    reviews=Review.query.filter_by(student_id=student_id).all()
-    if not reviews:#if no reviews then return empty string
-        return[]
-    reviews_of= [review.get_json() for review in reviews]
-    return reviews_of
+def get_student_reviews(student):
+    # Find review list entries for the given student
+    review_list_entries = ReviewList.query.filter_by(student_id=student.id).all()
+
+    student_reviews = []  # Initialize an empty list to store review JSON objects
+
+    for entry in review_list_entries:
+        review = Review.query.filter_by(id=entry.review_id).first()
+        
+        if review:  # Check if the review exists
+            student_reviews.append(review.get_json())
+
+    return student_reviews
+
 
 
 # def get_user_by_username(username):

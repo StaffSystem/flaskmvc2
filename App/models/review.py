@@ -23,11 +23,10 @@ class Review(db.Model, UserMixin):
 
 
     def get_json(self):
-        staff_name=Staff.get_staff(self.staff_id)
-
+        staff_username=Staff.query.filter_by(id=self.staff_id).first()
         return{
             'id': self.id,
-            'Staff member':staff_name.username,
+            'Staff member':staff_username.username,
             'rating':self.rating,
             'review':self.text,
             'Positive':self.isPositive,

@@ -7,7 +7,7 @@ from App.models import Review,Student
 class ReviewList(db.Model, UserMixin):
     id= db.Column(db.Integer, primary_key=True)
     review_id=db.Column(db.Integer, db.ForeignKey('review.id'), nullable=False)
-    student_id = db.Column(db.Integer, db.ForeignKey('student.id'), nullable=False)
+    student_id= db.Column(db.Integer, db.ForeignKey('student.id'), nullable=False)
 
 
     def __init__(self,student, review):
@@ -16,12 +16,11 @@ class ReviewList(db.Model, UserMixin):
         
 
 
-#     def get_json(self):
-#         return{
-#             'id': self.id,
-#             'rating':self.rating,
-#             'review':self.review
-#         }
+    def get_json(self):
+        return{
+            'Student id':self.student_id,
+            'review':self.review_id
+        }
 
 #     def set_rating(self, rating):
 #         self.rating = rating
