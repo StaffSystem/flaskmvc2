@@ -1,11 +1,11 @@
-import click, pytest, sys
+import click, pytest, sys, unittest
 from App.models import db, Staff,Review,Student,ReviewList
 from flask import Flask
 from flask.cli import with_appcontext, AppGroup
 
 from App.database import db, get_migrate
 from App.main import create_app
-from App.controllers import ( create_user, get_all_users_json, get_all_users,create_staff )
+from App.controllers import ( create_user, get_all_users_json, get_all_users,create_staff, addReview, create_student)
 
 # This commands file allow you to create convenient CLI commands for testing controllers
 
@@ -70,5 +70,13 @@ def user_tests_command(type):
     else:
         sys.exit(pytest.main(["-k", "App"]))
     
+@test.command("staff",help="Runs staff test")
+def staff_test():
+    staff=create_staff("b435","2344")
+    student=create_student("S10","bill","billywang")
+    data={"studentID":student.student_id,"Staffid":staff.id,"rating":"4","isPositive":True,"text":"Can't code for nothing"}
+    review=addReview(data)
+    print (review.text)
+    assert review.text=="Can't code for nothing"
 
 app.cli.add_command(test)

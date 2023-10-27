@@ -4,6 +4,8 @@ from App.models import Review
 from App.models import User
 from App.models import Student
 from App.database import db
+from App.controllers import create_review
+from flask import jsonify
 
 # staff_view = Blueprint('staff_views', __name__, template_folder='../templates')
 
@@ -66,8 +68,8 @@ def downVote(review):
     
     
 def addReview(data):
-    Review.create_review(data[Staff.id],data['studentID'],data['rating'],data['isPositive'], data['text'])
-    return Review
+    review=create_review(data['studentID'],data["Staffid"],data['rating'],data['isPositive'],data['text'])
+    return review
     
 
 

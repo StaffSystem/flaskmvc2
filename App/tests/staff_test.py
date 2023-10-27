@@ -7,7 +7,7 @@ from App.database import db, create_db, get_migrate
 from App.models import User
 
 import click, pytest, sys
-from flask import Flask
+from flask import Flask 
 from flask.cli import with_appcontext, AppGroup
 
 from App.controllers import login 
@@ -18,6 +18,7 @@ from App.controllers.staff import(
     get_all_staff,
     get_staff,
     get_staff_username,
+    addReview
 )
 
 app = create_app()
@@ -89,3 +90,9 @@ class StaffIntergrationTests(unittest.TestCase):
     def test_get_all_staff(self):
         staff_json = get_all_staff()
         self.assertListEqual([{"id":1, "username":"bob"}, {"id":2, "username":"rick"}], staff_json)
+
+    def test_addReview():
+        staff=create_staff("b44b5","bobpass")
+        data={"studentID":"1","Staffid":staff.id,"rating":"4","isPositive":True,"text":"Can't code for nothing"}
+        review=addReview(data)
+        assert self.assertListEqual([{"message":"Review Posted"}],review)
