@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, jsonify, request, send_from_direct
 from flask_jwt_extended import jwt_required, current_user as jwt_current_user
 from sqlalchemy.exc import SQLAlchemyError
 from flask_login import current_user, login_required
-from flask_login import LoginManager, login_user
+from flask_login import LoginManager, login_user, logout_user
 from flask import request, jsonify
 
 
@@ -50,6 +50,12 @@ def login_action():
     flash('Invalid username or password')  # send message to next page
     return jsonify({"message": "Incorrect Username or Password"}),401
   pass
+
+@staff_view.route('/logout', methods=['GET'])
+@login_required
+def logout():
+    logout_user()
+    return jsonify({"message": "Logged out successfully"}), 200
 
 @staff_view.route('/addStudent', methods=['POST'])
 # @login_required
