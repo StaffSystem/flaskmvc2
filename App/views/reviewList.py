@@ -12,14 +12,14 @@ reviewList_view = Blueprint('reviewList_views', __name__, template_folder='../te
 
 
 
-@reviewList_view.route('/reviews',method=["GET"])
+@reviewList_view.route('/reviews/<int:id>',methods=["GET"])
 @login_required
 def displayReviews(id):
-    student=Student.get_student(id);
+    student=Student.get_student(id)
     if(student):
         reviews=ReviewList.get_student_reviews(student.id)
     if not reviews:#if no reviews then return empty string
-        return[]
+        return []
     else:
         return reviews
 
