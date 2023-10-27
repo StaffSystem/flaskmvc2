@@ -22,7 +22,7 @@ def displayReviews():
         reviews=ReviewList.get_student_reviews(student.id)
         json_reviews = [review.get_json() for review in reviews]
     if(reviews):
-        return jsonify({"message": "Reviews Displayed", "reviews": reviews_list}),201
+        return jsonify({"message": "Reviews Displayed", **reviews_list}),201
     else:
         return jsonify({"message": "No Reviews Found"}),404
 
