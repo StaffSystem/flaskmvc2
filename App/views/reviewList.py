@@ -15,13 +15,14 @@ reviewList_view = Blueprint('reviewList_views', __name__, template_folder='../te
 @reviewList_view.route('/reviews',methods=["GET"])
 @login_required
 def displayReviews():
-    data = request.get_json()
+    new_id = int(data['id'])
+    student = Student.get_student(new_id)
     # student=Student.get_student(id)
-    student = Student.get_student(id = data['id'])
     if(student):
         reviews=ReviewList.get_student_reviews(student.id)
+        json_reviews = [review.get_json() for review in reviews]
     if(reviews):
-        return jsonify({"message": "Reviews Displayed", **reviews.get_json()}),201
+        return jsonify({"message": "Reviews Displayed", "reviews": reviews_list}),201
     else:
         return jsonify({"message": "No Reviews Found"}),404
 
