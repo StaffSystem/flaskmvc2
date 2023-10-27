@@ -92,7 +92,9 @@ class StaffIntergrationTests(unittest.TestCase):
         self.assertListEqual([{"id":1, "username":"bob"}, {"id":2, "username":"rick"}], staff_json)
 
     def test_addReview():
-        staff=create_staff("b44b5","bobpass")
-        data={"studentID":"1","Staffid":staff.id,"rating":"4","isPositive":True,"text":"Can't code for nothing"}
+        staff=create_staff("b435","2344")
+        student=create_student("S10","bill","billywang")
+        data={"studentID":student.student_id,"Staffid":staff.id,"rating":"4","isPositive":True,"text":"Can't code for nothing"}
         review=addReview(data)
-        assert self.assertListEqual([{"message":"Review Posted"}],review)
+        print (review.text)
+        assert review.text=="Can't code for nothing"

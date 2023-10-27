@@ -9,7 +9,6 @@ def create_review(student_id, staff_id, rating, isPositive, text):
     review = Review(staff_id=staff_id, rating=rating, isPositive=isPositive, text=text)
     db.session.add(review)
     db.session.commit()
-    print("IN REVIEW"+review.text)
     # Assuming you have a valid student_id
     student = Student.query.filter_by(student_id=student_id).first()
 

@@ -71,7 +71,7 @@ def user_tests_command(type):
         sys.exit(pytest.main(["-k", "App"]))
     
 @test.command("staff",help="Runs staff test")
-def staff_test():
+def staff_test_command():
     staff=create_staff("b435","2344")
     student=create_student("S10","bill","billywang")
     data={"studentID":student.student_id,"Staffid":staff.id,"rating":"4","isPositive":True,"text":"Can't code for nothing"}
