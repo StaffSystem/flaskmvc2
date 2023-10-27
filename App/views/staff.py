@@ -125,7 +125,7 @@ def getStudentReviews():
         return jsonify({"message": "Invalid data sent. 'id' is missing or invalid"}), 400
 
 
-@staff_view.route('/vote/<id>', methods['PUT'])
+@staff_view.route('/vote/<id>', methods=['PUT'])
 def addNewComment(id):
     
     requested_reviewt=Student.query.filter_by(id = id).first()
