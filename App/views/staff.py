@@ -57,7 +57,7 @@ def logout():
 # @login_required
 def addStudent():
     data = request.get_json()
-    taken_id = Student.query.filter_by(student_id=data["student_id"]).first()
+    taken_id = student.get_student(data['student_id'])
 
     if taken_id:
         return jsonify({"message": "Student already exists"}), 401
@@ -67,6 +67,7 @@ def addStudent():
             return jsonify({"message": "Student added successfully"}), 201 
         else:
             return jsonify({"message":"Error Student already exists"})
+    
 
 @staff_view.route('/getstaffByUsername/<username>',methods=['GET'])
 @login_required
