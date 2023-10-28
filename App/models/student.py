@@ -33,10 +33,10 @@ class Student(db.Model, UserMixin):
             self.karma+=1
         else:
             self.karma-=1
-            
+
         db.session.commit()
 
-    def edit_name(self, fName, lName):
+    def edit_name(self, fname, lname):
         self.firstname = fname
         self.lastname = lname
 
