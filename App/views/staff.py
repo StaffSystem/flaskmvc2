@@ -84,17 +84,17 @@ def createReview():
     else:
         return jsonify({"message": "Error"}),401
 
-@staff_view.route('/deleteReview',methods=['DELETE'])
-# @login_required
-def deleteReview():
+# @staff_view.route('/deleteReview',methods=['DELETE'])
+# # @login_required
+# def deleteReview():
 
-    data=request.get_json()
-    new_review=review.create_review(data['student_id'],data['staff_id'],data['rating'],data['isPositive'],data['text'])
+#     data=request.get_json()
+#     new_review=review.create_review(data['student_id'],data['staff_id'],data['rating'],data['isPositive'],data['text'])
     
-    if(new_review):
-        return jsonify({"message": "Review Posted"}),201
-    else:
-        return jsonify({"message": "Error"}),401
+#     if(new_review):
+#         return jsonify({"message": "Review Posted"}),201
+#     else:
+#         return jsonify({"message": "Error"}),401
 
 
 @staff_view.route('/searchStudent',methods=["GET"])
