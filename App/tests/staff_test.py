@@ -26,7 +26,7 @@ migrate = get_migrate(app)
 
 LOGGER = logging.getLogger(__name__)
 
-staff_test=AppGroup("staff",help='Tests Staff functions')
+
 
 class StaffUnitTests(unittest.TestCase):
 
@@ -68,7 +68,6 @@ class StaffIntergrationTests(unittest.TestCase):
     def create_staff_test(self):
         user = create_staff(username="bob2",password="bob2pass")
         assert user.username == "bob"
-#commit
 
     def update_staff_username_test(self):
         staff=get_staff(1)
@@ -80,17 +79,16 @@ class StaffIntergrationTests(unittest.TestCase):
 
 
     def test_get_staff_username(self):
-        staff=create_staff("bob","bobpass")
-        staffid=get_staff_username(username="bob")
-        if staffid:
-            print (staff)
-            assert staff.username=="bob"
-        print ("staff not found")
+        staff=create_staff(username="bobby",password="bobpass")
+        staffname=get_staff_username(username="bobby")
+        if staffname:
+            print(staffname.username)
+        assert staffname.username=="bobby"
 
     def test_get_all_staff(self):
         staff_json = get_all_staff()
         self.assertListEqual([{"id":1, "username":"bob"}, {"id":2, "username":"rick"}], staff_json)
-
+ 
     def test_addReview():
         staff=create_staff("b435","2344")
         student=create_student("S10","bill","billywang")

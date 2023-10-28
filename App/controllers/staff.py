@@ -16,7 +16,7 @@ def create_staff(username,password):
     return newStaff
 
 def get_staff(new_id):
-    staff=Staff.query.get(new_id=new_id)
+    staff=Staff.query.get(new_id)
     if (staff):
         return staff
     return None

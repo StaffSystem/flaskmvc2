@@ -5,7 +5,15 @@ from flask.cli import with_appcontext, AppGroup
 
 from App.database import db, get_migrate
 from App.main import create_app
-from App.controllers import ( create_user, get_all_users_json, get_all_users,create_staff, addReview, create_student)
+from App.controllers import ( create_user,
+    get_all_users_json,
+    get_all_users,
+    create_staff, 
+    addReview,
+    create_student,
+    get_staff,
+    get_all_staff,
+    get_staff_username)
 
 # This commands file allow you to create convenient CLI commands for testing controllers
 
@@ -71,8 +79,12 @@ def user_tests_command(type):
         sys.exit(pytest.main(["-k", "App"]))
     
 @test.command("staff",help="Runs staff test")
-def staff_test_command():
-    sys.exit(pytest.main(["-k", "StaffUnitTests"]))
+@click.argument("type",default="unit")
+def staff_test_command(type):
+    if type=="unit":
+        sys.exit(pytest.main(["-k", "StaffUnitTests"]))
+    elif type=="int":
+        sys.exit(pytest.main(["-k","StaffIntegrationTests"]))
     
-
+ 
 app.cli.add_command(test)
