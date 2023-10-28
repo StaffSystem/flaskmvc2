@@ -129,13 +129,15 @@ def vote():
     
     requested_review=Review.query.filter_by(id=data['reviewId']).first()
     if(requested_review):
+        
         if(vote==1):
+            
             review_upvotes = staff.upVote(requested_review)
         else:
-            review_upvotes=staff.downVote(request_review)
+            review_upvotes= staff.downVote(requested_review)
 
         if(review_upvotes):
-             return jsonify({"message": "Review has been your vote has been recieved)"}),200
+             return jsonify({"message": "Your vote has been recieved"}),200
         else:
             return jsonify({"message":"Error"}),400
     else:
