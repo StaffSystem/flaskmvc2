@@ -26,7 +26,9 @@ migrate = get_migrate(app)
 
 LOGGER = logging.getLogger(__name__)
 
-
+'''
+    Unit Tests
+'''
 
 class StaffUnitTests(unittest.TestCase):
 
@@ -50,6 +52,9 @@ class StaffUnitTests(unittest.TestCase):
         staff = Staff("bob", password)
         assert staff.check_password(password)
 
+'''
+    Integration Tests
+'''
 
 @pytest.fixture(autouse=True, scope="module")
 def empty_db():
