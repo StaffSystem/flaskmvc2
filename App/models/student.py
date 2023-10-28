@@ -27,6 +27,16 @@ class Student(db.Model, UserMixin):
             'karma':self.karma
         }
 
+
+    def edit_karma(self,review):
+        if(review==1):
+            self.karma+=1
+        else:
+            self.karma-=1
+            
+        db.session.commit()
+
+
     # def set_password(self, password):
     #     """Create hashed password."""
     #     self.password = generate_password_hash(password, method='sha256')

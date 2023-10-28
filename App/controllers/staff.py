@@ -2,7 +2,7 @@
 from App.models import Staff
 from App.models import Review
 from App.models import User
-from App.models import Student
+from App.models import Student,ReviewList
 from App.database import db
 from App.controllers import create_review
 from flask import jsonify
@@ -56,16 +56,21 @@ def search_student(studid):
 def search_student_by_name(username):
     return User.get_user_by_username(username)
 
-def upVote(review):
+def upVote(review,vote):
     #in this case we pass the review instance itself (just like with self)
     review.rating+=1
-    # student.edit_karma(review)
-    review.set_rating(review.rating)
-    return review
+    reviewListpos= ReviewList.query.filter_by(review_id=review.id).first()
+    our_student=Student.query.filter_by(id=reviewListpos.student_id).first()
 
-def downVote(review):
+    our_student.edit_karma(vote)
+    review.set_rating(review.rating)
+    return review #idk why returning review does not work here
+    
+def downVote(review,vote):
     review.rating-=1
-    # student.edit_karma(review)
+    reviewListpos=ReviewList.query.filter_by(review_id=review.id).first()
+    our_student=Student.query.filter_by(id=reviewListpos.student_id).first()
+    our_student.edit_karma(vote)
     review.set_rating(review.rating)
     return review #idk why returning review does not work here
     
