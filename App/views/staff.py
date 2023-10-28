@@ -65,6 +65,8 @@ def addStudent():
         new_student = student.create_student(data["student_id"], data["fname"], data["lname"])
         if new_student:
             return jsonify({"message": "Student added successfully"}), 201 
+        else:
+            return jsonify({"message":"Error Student already exists"})
 
 @staff_view.route('/getstaffByUsername/<username>',methods=['GET'])
 @login_required
