@@ -84,6 +84,18 @@ def createReview():
     else:
         return jsonify({"message": "Error"}),401
 
+@staff_view.route('/deleteReview',methods=['DELETE'])
+# @login_required
+def deleteReview():
+
+    data=request.get_json()
+    new_review=review.create_review(data['student_id'],data['staff_id'],data['rating'],data['isPositive'],data['text'])
+    
+    if(new_review):
+        return jsonify({"message": "Review Posted"}),201
+    else:
+        return jsonify({"message": "Error"}),401
+
 
 @staff_view.route('/searchStudent',methods=["GET"])
 # @login_required
@@ -94,7 +106,7 @@ def searchStudent():
         print(requested_student.get_json())
         return jsonify({"message": "Student Found", **requested_student.get_json()}),201
     else:
-        return jsonify({"message": "Invalid Student Id Given"}),404
+        return jsonify({"message": "Invalid Student Id Given"}),400
 
 
 @staff_view.route('/getStudents', methods=['GET'])
