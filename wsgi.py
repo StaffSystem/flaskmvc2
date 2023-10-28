@@ -72,7 +72,7 @@ def user_tests_command(type):
     
 @test.command("staff",help="Runs staff test")
 def staff_test_command():
-    sys.exit(pytest.main(["-k", "UserUnitTests"]))
+    sys.exit(pytest.main(["-k", "StaffUnitTests"]))
     
 
 app.cli.add_command(test)

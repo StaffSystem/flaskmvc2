@@ -32,12 +32,12 @@ class StaffUnitTests(unittest.TestCase):
 
     def test_new_staff(self):
         staff=Staff("bob","bobpass")
-        assert staff.usernamw=="bob"
+        assert staff.username=="bob"
 
     def test_get_json(self):
         staff=Staff("bob","bobpass")
-        staff_json=staff.get_json
-        self.assertDictEqual(staff_json,{"id":"None","username":"bob"})
+        staff_json=staff.get_json()
+        self.assertDictEqual(staff_json,{"id":None,"username":"bob"})
 
     def test_hashed_password(self):
         password = "mypass"
