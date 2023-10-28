@@ -35,6 +35,8 @@ class Review(db.Model, UserMixin):
 
     def set_rating(self, rating):
         self.rating = rating
+        db.session.commit()
+        return 
 
     def set_review(self, review):
         self.text = review

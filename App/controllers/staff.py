@@ -59,11 +59,14 @@ def search_student_by_name(username):
 def upVote(review):
     #in this case we pass the review instance itself (just like with self)
     review.rating+=1
-    Student.edit_karma(review)
+    student.edit_karma(review)
+    review.set_rating(rating)
     return review
 
 def downVote(review):
     review.rating+=1
+    student.edit_karma(review)
+    review.set_rating(rating)
     return review #idk why returning review does not work here
     
     

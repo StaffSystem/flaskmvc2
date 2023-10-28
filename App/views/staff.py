@@ -5,11 +5,9 @@ from flask_login import current_user, login_required
 from flask_login import LoginManager, login_user, logout_user
 from flask import request, jsonify
 
-
-
 from flask.cli import with_appcontext, AppGroup
 
-from App.models import Staff, Student, User
+from App.models import Staff, Student, User,Review
 
 from App.controllers import staff, student, addReview, get_staff_username,review,reviewlist
 
@@ -125,13 +123,23 @@ def getStudentReviews():
         return jsonify({"message": "Invalid data sent. 'id' is missing or invalid"}), 400
 
 
-@staff_view.route('/vote/<id>', methods=['POST'])
-def addNewComment(id):
+@staff_view.route('/vote', methods=['POST'])
+def vote():
     data = request.get_json()
     
-    requested_reviews=Student.query.filter_by().first()
-    review_upvotes = Staff.upVote(requested_review)
+    requested_review=Review.query.filter_by(id=data['reviewId']).first()
+    if(requested_review):
+        if(vote==1):
+            review_upvotes = staff.upVote(requested_review)
+        else:
+            review_upvotes=staff.downVote(request_review)
+
+        if(review_upvotes):
+             return jsonify({"message": "Review has been your vote has been recieved)"}),200
+        else:
+            return jsonify({"message":"Error"}),400
+    else:
+        return jsonify({"message":"Error"}),400
     
-    db.session.add(review_upvotes)
-    db.session.comimit()
+    
 
