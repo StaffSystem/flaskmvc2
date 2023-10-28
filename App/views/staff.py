@@ -128,7 +128,7 @@ def vote():
     data = request.get_json()
     
     requested_review=Review.query.filter_by(id=data['reviewId']).first()
-    
+
     if(requested_review):
         
         if(data['vote']!=0):
@@ -140,9 +140,9 @@ def vote():
         if(review_upvotes):
              return jsonify({"message": "Your vote has been recieved"}),200
         else:
-            return jsonify({"message":"Error"}),400
+            return jsonify({"message":"Error failed to log Vote"}),400
     else:
-        return jsonify({"message":"Error"}),400
+        return jsonify({"message":"Error failed to log Vote"}),400
     
     
 
