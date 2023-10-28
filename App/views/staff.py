@@ -130,7 +130,7 @@ def addNewComment(id):
     
     requested_reviewt=Student.query.filter_by(id = id).first()
     review_upvotes = Staff.upVote(requested_review)
-
+    
     db.session.add(review_upvotes)
     db.session.comimit()
 
