@@ -36,6 +36,13 @@ class Student(db.Model, UserMixin):
             
         db.session.commit()
 
+    def edit_name(self, fName, lName):
+        self.firstname = fname
+        self.lastname = lname
+
+        db.session.commit()
+
+
 
     # def set_password(self, password):
     #     """Create hashed password."""

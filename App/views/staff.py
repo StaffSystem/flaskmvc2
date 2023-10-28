@@ -143,6 +143,22 @@ def vote():
             return jsonify({"message":"Error failed to log Vote"}),400
     else:
         return jsonify({"message":"Error failed to log Vote"}),400
+
+
+@staff_view.route('/updateStudent', methods = ['PUT'])
+def updateStudent():
+    data = request.get_json()
+
+    requested_student=Student.query.filter_by(id=data['studentId']).first()
+
+    if(requested_student):
+        requested_student.edit_name(data['fname'], dats['lname'])
+        return jsonify({"message": "Student updated"}),200
+    else:
+        return jsonify({"massage": "Student does not exist"}),400
+
+
+
     
     
 
