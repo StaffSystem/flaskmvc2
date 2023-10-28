@@ -22,6 +22,12 @@ class ReviewList(db.Model, UserMixin):
             'review':self.review_id
         }
 
+    def delete(self):
+    
+            db.session.delete(self)
+            db.session.commit()
+            return True
+        
 #     def set_rating(self, rating):
 #         self.rating = rating
 

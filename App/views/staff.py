@@ -7,7 +7,7 @@ from flask import request, jsonify
 
 from flask.cli import with_appcontext, AppGroup
 
-from App.models import Staff, Student, User,Review
+from App.models import Staff, Student, User,Review,ReviewList
 
 from App.controllers import staff, student, addReview, get_staff_username,review,reviewlist
 
@@ -84,18 +84,24 @@ def createReview():
     else:
         return jsonify({"message": "Error"}),401
 
-# @staff_view.route('/deleteReview',methods=['DELETE'])
-# # @login_required
-# def deleteReview():
+@staff_view.route('/deleteReview',methods=['DELETE'])
+# @login_required
+def deleteReview():
 
-#     data=request.get_json()
-#     new_review=review.create_review(data['student_id'],data['staff_id'],data['rating'],data['isPositive'],data['text'])
-    
-#     if(new_review):
-#         return jsonify({"message": "Review Posted"}),201
-#     else:
-#         return jsonify({"message": "Error"}),401
+    data=request.get_json()
+    requested_review=Review.query.filter_by(id=data['reviewId']).first()
 
+    if(requested_review):
+            #find the review in reviewlist
+            my_review=ReviewList.query.filter_by(review_id=data['reviewId']).first()
+            my_review.delete()
+
+            if(my_review):
+                return jsonify({"message": "Your review has been deleted"}),200
+            else:
+                return jsonify({"message": "Error review does not exist"}),401
+    else:
+         return jsonify({"message": "Error review does not exist"}),401      
 
 @staff_view.route('/searchStudent',methods=["GET"])
 # @login_required
@@ -167,7 +173,7 @@ def updateStudent():
         requested_student.edit_name(data['fname'], data['lname'])
         return jsonify({"message": "Student updated"}),200
     else:
-        return jsonify({"massage": "Student does not exist"}),400
+        return jsonify({"message": "Student does not exist"}),400
 
 
 
